@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Login docker regsitry
+      run: docker login -u ${{ secrets.DOCKER_USER }} -p  ${{ secrets.DOCKER_USER_PASSWORD }}    
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag zlzforever/natasha-server
+    - name: Publish the Docker image
+      run: docker push zlzforever/natasha-server
+      
