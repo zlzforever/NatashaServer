@@ -118,6 +118,8 @@ app.MapPost("/api/v1.0/compile", async ctx =>
     catch (Exception e)
     {
         logger.LogError(e, "Compile failed: {Body}", body);
+        ctx.Response.StatusCode = 500;
+        await ctx.Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.ToString()));
     }
     finally
     {
